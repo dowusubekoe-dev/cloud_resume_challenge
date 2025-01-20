@@ -1,12 +1,17 @@
+// React Imports
 "use client";
 import React, { useState, useEffect } from 'react';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
-
+// Function for Main Component
 function MainComponent() {
   const [activeSection, setActiveSection] = useState("home");
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [visitorCount, setVisitorCount] = useState(0);
+  const [activeCategory, setActiveCategory] = useState("all");
+  const [activePortfolioCategory, setActivePortfolioCategory] = useState("all");
 
+// Google Tag Manager Setup
   useEffect(() => {
     const script = document.createElement("script");
     script.async = true;
@@ -24,7 +29,6 @@ function MainComponent() {
         custom_map: { dimension1: "visitor_count" },
       });
 
-      // Increment visitor count
       const currentCount = parseInt(
         localStorage.getItem("visitorCount") || "0"
       );
@@ -32,7 +36,6 @@ function MainComponent() {
       localStorage.setItem("visitorCount", newCount.toString());
       setVisitorCount(newCount);
 
-      // Send visitor count to Google Analytics
       gtag("event", "visitor_count", { visitor_count: newCount });
     };
 
@@ -68,15 +71,14 @@ function MainComponent() {
                   <button
                     key={section}
                     onClick={() => scrollToSection(section)}
-                    className={`${
-                      activeSection === section
-                        ? "text-[#60a5fa]"
-                        : "text-[#e2e8f0]"
-                    } hover:text-[#60a5fa] transition-colors capitalize`}
+                    className={`${activeSection === section
+                      ? "text-[#60a5fa]"
+                      : "text-[#e2e8f0]"
+                      } hover:text-[#60a5fa] transition-colors capitalize`}
                   >
                     {section}
                   </button>
-                )
+                ),
               )}
             </div>
 
@@ -85,9 +87,7 @@ function MainComponent() {
               onClick={() => setIsMenuOpen(!isMenuOpen)}
             >
               <i
-                className={`fas ${
-                  isMenuOpen ? "fa-times" : "fa-bars"
-                } text-2xl`}
+                className={`fas ${isMenuOpen ? "fa-times" : "fa-bars"} text-2xl`}
               ></i>
             </button>
           </div>
@@ -99,20 +99,19 @@ function MainComponent() {
                   <button
                     key={section}
                     onClick={() => scrollToSection(section)}
-                    className="block w-full text-left py-2 px-4 text-[#e2e8f0] hover:bg-[#2d364f] capitalize font-poppins"
-                  >
+                    className="block w-full text-left py-2 px-4 text-[#e2e8f0] hover:bg-[#2d364f] capitalize font-poppins">
                     {section}
                   </button>
-                )
+                ),
               )}
             </div>
           )}
         </div>
       </nav>
+
       <section
         id="home"
-        className="min-h-screen pt-16 bg-gradient-to-br from-[#1a1f2e] to-[#2d364f] flex items-center justify-center"
-      >
+        className="min-h-screen pt-16 bg-gradient-to-br from-[#1a1f2e] to-[#2d364f] flex items-center justify-center">
         <div className="max-w-7xl mx-auto px-4 py-20 w-full">
           <div className="flex flex-col md:flex-row items-center justify-center">
             <div className="md:w-1/2 text-center">
@@ -122,28 +121,27 @@ function MainComponent() {
               <p className="font-poppins text-xl text-[#a0aec0] mb-8">
                 Empowering Business Through Cloud Solutions
               </p>
-              <div className="space-x-4">
+              <div className="flex justify-center space-x-4">
                 <button
                   onClick={() => scrollToSection("portfolio")}
-                  className="bg-[#60a5fa] text-[#1a1f2e] px-6 py-3 rounded-lg hover:bg-[#3b82f6] transition-colors font-poppins"
-                >
+                  className="bg-[#60a5fa] text-[#1a1f2e] px-4 py-2 rounded-lg hover:bg-[#3b82f6] transition-colors font-poppins inline-flex items-center justify-center">
+                  <i className="fas fa-briefcase mr-2"></i>
                   View Portfolio
                 </button>
-                <button
-                  onClick={() => scrollToSection("contact")}
-                  className="border-2 border-[#60a5fa] text-[#60a5fa] px-6 py-3 rounded-lg hover:bg-[#60a5fa] hover:text-[#1a1f2e] transition-colors font-poppins"
-                >
+                <a
+                  href="mailto:dowusubekoe@gmail.com"
+                  className="border-2 border-[#60a5fa] text-[#60a5fa] px-4 py-2 rounded-lg hover:bg-[#60a5fa] hover:text-[#1a1f2e] transition-colors font-poppins inline-flex items-center justify-center">
+                  <i className="fas fa-envelope mr-2"></i>
                   Contact Me
-                </button>
+                </a>
               </div>
             </div>
             <div className="md:w-1/2 mt-8 md:mt-0 flex justify-center">
               <div className="w-64 h-64 rounded-full overflow-hidden shadow-xl border-4 border-[#2d364f]">
                 <img
-                  src="/assets/profile-pic-2.png/"
-                  alt="Professional headshot of a male cloud support engineer"
-                  className="w-full h-full object-cover"
-                />
+                  src="https://ucarecdn.com/8bddf375-76f9-4e84-9af5-a1ad51f433df/-/format/auto/"
+                  alt="Professional headshot of a person wearing glasses and a yellow hoodie"
+                  className="w-full h-full object-cover"/>
               </div>
             </div>
           </div>
@@ -171,20 +169,25 @@ function MainComponent() {
               latest cloud developments to deliver exceptional support and drive
               technological advancement.
             </p>
-            <div className="flex justify-center space-x-4 mb-12">
-              <a
-                href="/cv.pdf"
-                download
-                className="bg-[#60a5fa] text-[#1a1f2e] px-6 py-3 rounded-lg hover:bg-[#3b82f6] transition-colors font-poppins inline-flex items-center"
-              >
+            <div className="flex justify-center space-x-4">
+              <button
+                onClick={() => {
+                  const link = document.createElement("a");
+                  link.href = "/cv.pdf";
+                  link.download = "Derek_Owusu_Bekoe_CV.pdf";
+                  document.body.appendChild(link);
+                  link.click();
+                  document.body.removeChild(link);
+                }}
+                className="bg-[#60a5fa] text-[#1a1f2e] px-4 py-2 rounded-lg hover:bg-[#3b82f6] transition-colors font-poppins inline-flex items-center justify-center">
                 <i className="fas fa-download mr-2"></i>
                 Download CV
-              </a>
+              </button>
               <button
                 onClick={() => scrollToSection("portfolio")}
-                className="border-2 border-[#60a5fa] text-[#60a5fa] px-6 py-3 rounded-lg hover:bg-[#60a5fa] hover:text-[#1a1f2e] transition-colors font-poppins inline-flex items-center"
+                className="border-2 border-[#60a5fa] text-[#60a5fa] px-4 py-2 rounded-lg hover:bg-[#60a5fa] hover:text-[#1a1f2e] transition-colors font-poppins inline-flex items-center justify-center"
               >
-                <i className="fas fa-briefcase mr-2 text-[#60a5fa]"></i>
+                <i className="fas fa-briefcase mr-2"></i>
                 View Portfolio
               </button>
             </div>
@@ -225,7 +228,7 @@ function MainComponent() {
                     <i className="fas fa-tv mr-2 text-[#60a5fa]"></i>TV Series
                   </h4>
                   <p className="text-[#a0aec0] font-poppins">
-                    Enjoys shows like Silicon Valley, Lost, Mr. Robot, Narcos.
+                    Enjoys shows like Silicon Valley, Lost, Mr. Robot, and Narcos.
                   </p>
                 </div>
                 <div className="bg-[#2d364f] p-6 rounded-lg">
@@ -260,6 +263,7 @@ function MainComponent() {
             <div className="space-y-8">
               <div>
                 <h3 className="text-xl font-bold mb-4 font-poppins text-[#e2e8f0]">
+                  <i className="fas fa-graduation-cap mr-2 text-[#60a5fa]"></i>
                   Education
                 </h3>
                 <div className="space-y-4">
@@ -284,6 +288,7 @@ function MainComponent() {
               </div>
               <div>
                 <h3 className="text-xl font-bold mb-4 font-poppins text-[#e2e8f0]">
+                  <i className="fas fa-certificate mr-2 text-[#60a5fa]"></i>
                   Certifications
                 </h3>
                 <div className="space-y-4">
@@ -303,6 +308,7 @@ function MainComponent() {
               </div>
               <div>
                 <h3 className="text-xl font-bold mb-4 font-poppins text-[#e2e8f0]">
+                  <i className="fas fa-laptop-code mr-2 text-[#60a5fa]"></i>
                   Professional Development
                 </h3>
                 <div className="bg-[#1a1f2e] p-6 rounded-lg shadow-md">
@@ -341,6 +347,7 @@ function MainComponent() {
             </div>
             <div>
               <h3 className="text-xl font-bold mb-4 font-poppins text-[#e2e8f0]">
+                <i className="fas fa-briefcase mr-2 text-[#60a5fa]"></i>
                 Experience
               </h3>
               <div className="space-y-6">
@@ -422,6 +429,7 @@ function MainComponent() {
             </div>
             <div>
               <h3 className="text-xl font-bold mb-4 font-poppins text-[#e2e8f0]">
+                <i className="fas fa-tools mr-2 text-[#60a5fa]"></i>
                 Skills
               </h3>
               <div className="bg-[#1a1f2e] p-6 rounded-lg shadow-md space-y-6">
@@ -558,6 +566,20 @@ function MainComponent() {
           <h2 className="text-3xl font-bold text-center mb-12 font-poppins text-[#e2e8f0]">
             <i className="fas fa-briefcase mr-2 text-[#60a5fa]"></i>Portfolio
           </h2>
+          <div className="flex justify-center mb-8 space-x-4">
+            {["all", "cloud", "cybersecurity", "sys admin"].map((category) => (
+              <button
+                key={category}
+                onClick={() => setActivePortfolioCategory(category)}
+                className={`px-4 py-2 rounded-lg font-poppins ${activePortfolioCategory === category
+                  ? "bg-[#60a5fa] text-[#1a1f2e]"
+                  : "bg-[#1a1f2e] text-[#60a5fa] hover:bg-[#3b82f6] hover:text-[#1a1f2e]"
+                  } transition-colors`}
+              >
+                {category.charAt(0).toUpperCase() + category.slice(1)}
+              </button>
+            ))}
+          </div>
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
             {[
               {
@@ -566,9 +588,10 @@ function MainComponent() {
                 description:
                   "Led the migration of legacy systems to AWS cloud infrastructure, implementing microservices architecture.",
                 skills: ["AWS", "Docker", "Kubernetes", "Terraform"],
-                image: "/project-1.jpg",
+                image: "/assets/images/aws-migration.png",
                 github: "https://github.com/username/aws-migration",
                 medium: "https://medium.com/@username/aws-migration-case-study",
+                category: "cloud",
               },
               {
                 id: 2,
@@ -576,9 +599,10 @@ function MainComponent() {
                 description:
                   "Developed a comprehensive security framework for multi-cloud environments using DevSecOps practices.",
                 skills: ["Security", "DevSecOps", "CI/CD", "AWS WAF"],
-                image: "/project-2.jpg",
+                image: "/assets/images/cloud-security-framework.png",
                 github: "https://github.com/username/cloud-security",
                 medium: "https://medium.com/@username/cloud-security-framework",
+                category: "cybersecurity",
               },
               {
                 id: 3,
@@ -586,9 +610,10 @@ function MainComponent() {
                 description:
                   "Built a scalable analytics platform using serverless architecture and real-time data processing.",
                 skills: ["Lambda", "DynamoDB", "API Gateway", "CloudWatch"],
-                image: "/project-3.jpg",
+                image: "/assets/images/serverless-analytics.png",
                 github: "https://github.com/username/serverless-analytics",
                 medium: "https://medium.com/@username/serverless-analytics",
+                category: "cloud",
               },
               {
                 id: 4,
@@ -596,9 +621,10 @@ function MainComponent() {
                 description:
                   "Implemented a unified monitoring solution across AWS, Azure, and GCP using open-source tools.",
                 skills: ["Prometheus", "Grafana", "ELK Stack", "Python"],
-                image: "/project-4.jpg",
+                image: "/assets/images/multi-cloud-monitoring.png",
                 github: "https://github.com/username/multi-cloud-monitoring",
                 medium: "https://medium.com/@username/multi-cloud-monitoring",
+                category: "sys admin",
               },
               {
                 id: 5,
@@ -606,9 +632,10 @@ function MainComponent() {
                 description:
                   "Designed and implemented a container orchestration platform for microservices deployment.",
                 skills: ["Kubernetes", "Docker", "Helm", "GitOps"],
-                image: "/project-5.jpg",
+                image: "/assets/images/container-orchestration.png",
                 github: "https://github.com/username/container-platform",
                 medium: "https://medium.com/@username/container-orchestration",
+                category: "sys admin",
               },
               {
                 id: 6,
@@ -616,60 +643,67 @@ function MainComponent() {
                 description:
                   "Automated cloud infrastructure deployment using Infrastructure as Code principles.",
                 skills: ["Terraform", "CloudFormation", "Ansible", "Git"],
-                image: "/project-6.jpg",
+                image: "/assets/images/infrastructure-as-code.png",
                 github: "https://github.com/username/infrastructure-as-code",
                 medium: "https://medium.com/@username/iac-best-practices",
+                category: "cloud",
               },
-            ].map((project) => (
-              <div
-                key={project.id}
-                className="bg-[#2d364f] rounded-lg shadow-md overflow-hidden"
-              >
-                <img
-                  src={project.image}
-                  alt={`${project.title} project showcase`}
-                  className="w-full h-48 object-cover"
-                />
-                <div className="p-6">
-                  <h3 className="font-bold text-lg mb-2 font-poppins text-[#e2e8f0]">
-                    {project.title}
-                  </h3>
-                  <p className="text-[#a0aec0] mb-4 font-poppins">
-                    {project.description}
-                  </p>
-                  <div className="mb-4 flex flex-wrap gap-2">
-                    {project.skills.map((skill, index) => (
-                      <span
-                        key={index}
-                        className="px-2 py-1 bg-[#1a1f2e] text-[#60a5fa] text-[11px] rounded font-poppins"
+            ]
+              .filter(
+                (project) =>
+                  activePortfolioCategory === "all" ||
+                  project.category === activePortfolioCategory,
+              )
+              .map((project) => (
+                <div
+                  key={project.id}
+                  className="bg-[#2d364f] rounded-lg shadow-md overflow-hidden"
+                >
+                  <img
+                    src={project.image}
+                    alt={`${project.title} project showcase`}
+                    className="w-full h-48 object-cover"
+                  />
+                  <div className="p-6">
+                    <h3 className="font-bold text-lg mb-2 font-poppins text-[#e2e8f0]">
+                      {project.title}
+                    </h3>
+                    <p className="text-[#a0aec0] mb-4 font-poppins">
+                      {project.description}
+                    </p>
+                    <div className="mb-4 flex flex-wrap gap-2">
+                      {project.skills.map((skill, index) => (
+                        <span
+                          key={index}
+                          className="px-2 py-1 bg-[#1a1f2e] text-[#60a5fa] text-[11px] rounded font-poppins"
+                        >
+                          {skill}
+                        </span>
+                      ))}
+                    </div>
+                    <div className="flex space-x-4">
+                      <a
+                        href={project.github}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="text-[#60a5fa] hover:text-[#3b82f6] font-poppins inline-flex items-center text-[11px]"
                       >
-                        {skill}
-                      </span>
-                    ))}
-                  </div>
-                  <div className="flex space-x-4">
-                    <a
-                      href={project.github}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="text-[#60a5fa] hover:text-[#3b82f6] font-poppins inline-flex items-center text-[11px]"
-                    >
-                      <i className="fab fa-github mr-2 text-[#60a5fa]"></i>
-                      GitHub
-                    </a>
-                    <a
-                      href={project.medium}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="text-[#60a5fa] hover:text-[#3b82f6] font-poppins inline-flex items-center text-[11px]"
-                    >
-                      <i className="fab fa-medium mr-2 text-[#60a5fa]"></i>
-                      Article
-                    </a>
+                        <i className="fab fa-github mr-2 text-[#60a5fa]"></i>
+                        GitHub
+                      </a>
+                      <a
+                        href={project.medium}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="text-[#60a5fa] hover:text-[#3b82f6] font-poppins inline-flex items-center text-[11px]"
+                      >
+                        <i className="fab fa-medium mr-2 text-[#60a5fa]"></i>
+                        Article
+                      </a>
+                    </div>
                   </div>
                 </div>
-              </div>
-            ))}
+              ))}
           </div>
         </div>
       </section>
@@ -678,49 +712,96 @@ function MainComponent() {
           <h2 className="text-3xl font-bold text-center mb-12 font-poppins text-[#e2e8f0]">
             <i className="fas fa-blog mr-2 text-[#60a5fa]"></i>Blog
           </h2>
-          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-            {[1, 2, 3].map((post) => (
-              <div
-                key={post}
-                className="bg-[#1a1f2e] rounded-lg shadow-md overflow-hidden"
+          <div className="flex justify-center mb-8 space-x-4">
+            {["all", "cloud", "cybersecurity", "sys admin"].map((category) => (
+              <button
+                key={category}
+                onClick={() => setActiveCategory(category)}
+                className={`px-4 py-2 rounded-lg font-poppins ${activeCategory === category
+                  ? "bg-[#60a5fa] text-[#1a1f2e]"
+                  : "bg-[#1a1f2e] text-[#60a5fa] hover:bg-[#3b82f6] hover:text-[#1a1f2e]"
+                  } transition-colors`}
               >
-                <div className="p-6">
-                  <h3 className="font-bold text-lg mb-2 font-poppins text-[#e2e8f0]">
-                    Cloud Technology Insights
-                  </h3>
-                  <p className="text-[#a0aec0] mb-4 font-poppins">
-                    Expert analysis on cloud computing trends and best
-                    practices...
-                  </p>
-                  <button className="text-[#60a5fa] hover:text-[#3b82f6] font-poppins mb-4">
-                    Read More →
-                  </button>
-                  <div className="flex space-x-4 mt-2">
-                    <a
-                      href="https://github.com/username/blog-post"
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="text-[#60a5fa] hover:text-[#3b82f6] font-poppins inline-flex items-center text-xs"
-                    >
-                      <i className="fab fa-github mr-2"></i>
-                      View on GitHub
-                    </a>
-                    <a
-                      href="https://medium.com/@username/blog-post"
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="text-[#60a5fa] hover:text-[#3b82f6] font-poppins inline-flex items-center text-xs"
-                    >
-                      <i className="fab fa-medium mr-2"></i>
-                      Read on Medium
-                    </a>
+                {category.charAt(0).toUpperCase() + category.slice(1)}
+              </button>
+            ))}
+          </div>
+          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+            {[
+              {
+                id: 1,
+                title: "Cloud Technology Insights",
+                description:
+                  "Expert analysis on cloud computing trends and best practices...",
+                category: "cloud",
+                github: "https://github.com/username/cloud-insights",
+                medium: "https://medium.com/@username/cloud-insights",
+              },
+              {
+                id: 2,
+                title: "Security Best Practices",
+                description:
+                  "Latest developments in cybersecurity and threat prevention...",
+                category: "cybersecurity",
+                github: "https://github.com/username/security-practices",
+                medium: "https://medium.com/@username/security-practices",
+              },
+              {
+                id: 3,
+                title: "System Administration Tips",
+                description:
+                  "Professional insights into system administration and maintenance...",
+                category: "sys admin",
+                github: "https://github.com/username/sysadmin-tips",
+                medium: "https://medium.com/@username/sysadmin-tips",
+              },
+            ]
+              .filter(
+                (post) =>
+                  activeCategory === "all" || post.category === activeCategory,
+              )
+              .map((post) => (
+                <div
+                  key={post.id}
+                  className="bg-[#1a1f2e] rounded-lg shadow-md overflow-hidden"
+                >
+                  <div className="p-6">
+                    <h3 className="font-bold text-lg mb-2 font-poppins text-[#e2e8f0]">
+                      {post.title}
+                    </h3>
+                    <p className="text-[#a0aec0] mb-4 font-poppins">
+                      {post.description}
+                    </p>
+                    <button className="text-[#60a5fa] hover:text-[#3b82f6] font-poppins mb-4">
+                      Read More →
+                    </button>
+                    <div className="flex space-x-4 mt-2">
+                      <a
+                        href={post.github}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="text-[#60a5fa] hover:text-[#3b82f6] font-poppins inline-flex items-center text-xs"
+                      >
+                        <i className="fab fa-github mr-2"></i>
+                        View on GitHub
+                      </a>
+                      <a
+                        href={post.medium}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="text-[#60a5fa] hover:text-[#3b82f6] font-poppins inline-flex items-center text-xs"
+                      >
+                        <i className="fab fa-medium mr-2"></i>
+                        Read on Medium
+                      </a>
+                    </div>
                   </div>
                 </div>
-              </div>
-            ))}
+              ))}
           </div>
         </div>
       </section>
+
       <section id="contact" className="min-h-screen py-20 bg-[#1a1f2e]">
         <div className="max-w-7xl mx-auto px-4">
           <h2 className="text-3xl font-bold text-center mb-12 font-poppins text-[#e2e8f0]">
@@ -749,16 +830,123 @@ function MainComponent() {
                   name="message"
                   placeholder="Your Message"
                   rows="4"
-                  className="w-full px-4 py-2 bg-[#2d364f] border border-[#4a5568] rounded-lg focus:outline-none focus:border-[#60a5fa] font-poppins text-[#e2e8f0] placeholder-[#a0aec0]"
-                ></textarea>
+                  className="w-full px-4 py-2 bg-[#2d364f] border border-[#4a5568] rounded-lg focus:outline-none focus:border-[#60a5fa] font-poppins text-[#e2e8f0] placeholder-[#a0aec0]">
+                </textarea>
               </div>
-              <button className="w-full bg-[#60a5fa] text-[#1a1f2e] px-6 py-3 rounded-lg hover:bg-[#3b82f6] transition-colors font-poppins font-bold">
-                Send Message
-              </button>
+              <div className="flex justify-center mt-8 mb-4">
+                <a
+                  href="mailto:dowusubekoe@gmail.com"
+                  className="w-1/2 bg-[#60a5fa] text-[#1a1f2e] px-6 py-3 rounded-lg hover:bg-[#3b82f6] transition-colors font-poppins font-bold text-center"
+                >
+                  Send Message
+                </a>
+              </div>
             </form>
           </div>
         </div>
       </section>
+
+      <footer className="bg-[#2d364f] py-16 border-t border-[#4a5568]">
+        <div className="max-w-7xl mx-auto px-4">
+          <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
+            <div>
+              <h3 className="text-xl font-bold mb-4 font-poppins text-[#e2e8f0]">
+                About
+              </h3>
+              <p className="text-[#a0aec0] font-poppins">
+                Cloud Support Engineer helping businesses leverage cloud
+                technologies for optimal performance and growth.
+              </p>
+            </div>
+            <div>
+              <h3 className="text-xl font-bold mb-4 font-poppins text-[#e2e8f0]">
+                Quick Links
+              </h3>
+              <ul className="space-y-2">
+                {[
+                  "home",
+                  "about",
+                  "resume",
+                  "portfolio",
+                  "blog",
+                  "contact",
+                ].map((section) => (
+                  <li key={section}>
+                    <button
+                      onClick={() => scrollToSection(section)}
+                      className="text-[#a0aec0] hover:text-[#60a5fa] transition-colors font-poppins capitalize">
+                      {section}
+                    </button>
+                  </li>
+                ))}
+              </ul>
+            </div>
+            <div>
+              <h3 className="text-xl font-bold mb-4 font-poppins text-[#e2e8f0]">
+                Contact Info
+              </h3>
+              <ul className="space-y-2 text-[#a0aec0] font-poppins">
+                <li className="flex items-center">
+                  <i className="fas fa-envelope mr-2 text-[#60a5fa]"></i>
+                  dowusubekoe@gmail.com
+                </li>
+                <li className="flex items-center">
+                  <i className="fas fa-phone mr-2 text-[#60a5fa]"></i>
+                  +1 (757) 915-3164
+                </li>
+                <li className="flex items-center">
+                  <i className="fas fa-map-marker-alt mr-2 text-[#60a5fa]"></i>
+                  Paramus, NJ, USA
+                </li>
+              </ul>
+            </div>
+            <div>
+              <h3 className="text-xl font-bold mb-4 font-poppins text-[#e2e8f0]">
+                Follow Me
+              </h3>
+              <div className="flex space-x-4">
+                <a
+                  href="https://github.com/dowusubekoe-dev"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-[#60a5fa] hover:text-[#3b82f6] text-2xl"
+                >
+                  <i className="fab fa-github"></i>
+                </a>
+                <a
+                  href="https://www.linkedin.com/in/derekowusubekoe/"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-[#60a5fa] hover:text-[#3b82f6] text-2xl"
+                >
+                  <i className="fab fa-linkedin"></i>
+                </a>
+                <a
+                  href="https://x.com/derekowusubekoe"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-[#60a5fa] hover:text-[#3b82f6] text-2xl"
+                >
+                  <i className="fab fa-twitter"></i>
+                </a>
+                <a
+                  href="https://medium.com/@dowusubekoe"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-[#60a5fa] hover:text-[#3b82f6] text-2xl"
+                >
+                  <i className="fab fa-medium"></i>
+                </a>
+              </div>
+            </div>
+          </div>
+          <div className="mt-12 pt-8 border-t border-[#4a5568] text-center">
+            <p className="text-[#a0aec0] font-poppins">
+              © 2025 Derek Owusu Bekoe. All rights reserved.
+            </p>
+          </div>
+        </div>
+      </footer>
     </div>
   );
 }
