@@ -32,7 +32,8 @@ jobs:
         aws-region: us-east-1  # Replace with your AWS region
 
     - name: Sync Website to files to S3
-      env:
-          # CLOUDFRONT_DISTRIBUTION_ID: ${{ secrets.CLOUDFRONT_DISTRIBUTION_ID }}
       run: |
-          aws s3 sync /home/dorbsyfx-iac-svr/my_journal/cloud-projects/cloud-resume-challenge/ s3://cloud-resume-challenge-yes --delete
+          aws s3 sync ./build/ s3://cloud-resume-challenge-yes --delete --acl public-read
+    - name: Invalidate CloudFront cache
+      run: |
+          aws cloudfront create-invalidation --distribution-id ${{ secrets.CLOUDFRONT_DISTRIBUTION_ID }} --paths "/*"
