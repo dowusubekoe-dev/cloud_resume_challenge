@@ -12,16 +12,20 @@ jobs:
     steps:
     - name: Checkout code
       uses: actions/checkout@v3
+      with:
+        path: ./cloud-resume-challenge
 
     - name: Set up Node.js
       uses: actions/setup-node@v3
       with:
         node-version: '18' # Or your required Node version
 
-    - name: Install dependencies
+    - name: Install 
+      working-directory: ./cloud-resume-challenge
       run: npm install
 
     - name: Build and Export Next.js app
+      working-directory: ./cloud-resume-challenge
       run: |
         npm run build   # Builds the project
         npm run export  # Exports the project to the 'out/' folder
