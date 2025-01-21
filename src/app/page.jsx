@@ -942,7 +942,7 @@ function MainComponent() {
           </div>
           <div className="mt-12 pt-8 border-t border-[#4a5568] text-center">
             <p className="text-[#a0aec0] font-poppins">
-              © 2025 Derek Owusu Bekoe. All rights reserved.
+              Copyright © 2025 Derek Owusu Bekoe. All rights reserved.
             </p>
           </div>
         </div>

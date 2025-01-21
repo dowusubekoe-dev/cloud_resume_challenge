@@ -31,9 +31,8 @@ jobs:
         aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
         aws-region: us-east-1  # Replace with your AWS region
 
-    - name: Deploy to S3 and CloudFront
+    - name: Sync Website to files to S3
       env:
-          CLOUDFRONT_DISTRIBUTION_ID: ${{ secrets.CLOUDFRONT_DISTRIBUTION_ID }}
+          # CLOUDFRONT_DISTRIBUTION_ID: ${{ secrets.CLOUDFRONT_DISTRIBUTION_ID }}
       run: |
-          aws s3 sync ./build/ s3://cloud-resume-challenge-yes --delete
-          aws cloudfront create-invalidation --distribution-id $CLOUDFRONT_DISTRIBUTION_ID --paths "/*"
+          aws s3 sync /home/dorbsyfx-iac-svr/my_journal/cloud-projects/cloud-resume-challenge/ s3://cloud-resume-challenge-yes --delete
