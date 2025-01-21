@@ -10,6 +10,12 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
+    - name: Install dependencies
+      run: npm install
+
+    - name: Build React app
+      run: npm run build
+
     - name: Checkout code
       uses: actions/checkout@v3
 
@@ -31,9 +37,10 @@ jobs:
         aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
         aws-region: us-east-1  # Replace with your AWS region
 
-    - name: Sync Website to files to S3
+    - name: Sync files to S3
       run: |
-          aws s3 sync ./build/ s3://cloud-resume-challenge-yes --delete --acl public-read
+          cd ./
+          aws s3 sync build/ s3://cloud-resume-challenge-yes --delete --acl public-read
     - name: Invalidate CloudFront cache
       run: |
           aws cloudfront create-invalidation --distribution-id ${{ secrets.CLOUDFRONT_DISTRIBUTION_ID }} --paths "/*"
