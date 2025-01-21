@@ -34,8 +34,4 @@ jobs:
     - name: Sync files to S3
       run: |
           cd out/
-          aws s3 sync . s3://cloud-resume-challenge-yes --delete --acl public-read
-
-    - name: Invalidate CloudFront cache
-      run: |
-          aws cloudfront create-invalidation --distribution-id ${{ secrets.CLOUDFRONT_DISTRIBUTION_ID }} --paths "/*"
+          aws s3 sync . s3://cloud-resume-challenge-yes --delete --acl public-read --debug

@@ -1,14 +1,9 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-  webpack: (config) => {
-    config.externals = [
-      ...config.externals, 
-      { canvas: "canvas" },
-      { punycode: "punycode" },
-    ];
-    return config;
-  },
-  output: 'export', // Add this line to specify the static export output
-};
+  output: 'export',
+  reactStrictMode: true,
+  swcMinify: true,
+}
 
-module.exports = nextConfig;
+module.exports = nextConfig
+
