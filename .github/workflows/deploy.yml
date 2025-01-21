@@ -10,12 +10,6 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-    - name: Install dependencies
-      run: npm install
-
-    - name: Build React app
-      run: npm run build
-
     - name: Checkout code
       uses: actions/checkout@v3
 
@@ -27,8 +21,10 @@ jobs:
     - name: Install dependencies
       run: npm install
 
-    - name: Build React app
-      run: npm run build
+    - name: Build and Export Next.js app
+      run: |
+        npm run build   # Builds the project
+        npm run export  # Exports the project to the 'out/' folder
 
     - name: Configure AWS Credentials
       uses: aws-actions/configure-aws-credentials@v1
@@ -39,8 +35,8 @@ jobs:
 
     - name: Sync files to S3
       run: |
-          cd ./
-          aws s3 sync build/ s3://cloud-resume-challenge-yes --delete --acl public-read
+        aws s3 sync out/ s3://cloud-resume-challenge-yes --delete --acl public-read
+
     - name: Invalidate CloudFront cache
       run: |
-          aws cloudfront create-invalidation --distribution-id ${{ secrets.CLOUDFRONT_DISTRIBUTION_ID }} --paths "/*"
+        aws cloudfront create-invalidation --distribution-id ${{ secrets.CLOUDFRONT_DISTRIBUTION_ID }} --paths "/*"
