@@ -12,23 +12,17 @@ jobs:
     steps:
     - name: Checkout code
       uses: actions/checkout@v3
-      with:
-        path: ./cloud-resume-challenge
 
     - name: Set up Node.js
       uses: actions/setup-node@v3
       with:
-        node-version: '18' # Or your required Node version
+        node-version: '18'  # Or your required Node version
 
-    - name: Install 
-      working-directory: ./cloud-resume-challenge
+    - name: Install dependencies
       run: npm install
 
-    - name: Build and Export Next.js app
-      working-directory: ./cloud-resume-challenge
-      run: |
-        npm run build   # Builds the project
-        npm run export  # Exports the project to the 'out/' folder
+    - name: Build Next.js app
+      run: npm run build  # This automatically includes the export due to output: 'export'
 
     - name: Configure AWS Credentials
       uses: aws-actions/configure-aws-credentials@v1
@@ -39,8 +33,9 @@ jobs:
 
     - name: Sync files to S3
       run: |
-        aws s3 sync out/ s3://cloud-resume-challenge-yes --delete --acl public-read
+          cd out/
+          aws s3 sync . s3://cloud-resume-challenge-yes --delete --acl public-read
 
     - name: Invalidate CloudFront cache
       run: |
-        aws cloudfront create-invalidation --distribution-id ${{ secrets.CLOUDFRONT_DISTRIBUTION_ID }} --paths "/*"
+          aws cloudfront create-invalidation --distribution-id ${{ secrets.CLOUDFRONT_DISTRIBUTION_ID }} --paths "/*"
