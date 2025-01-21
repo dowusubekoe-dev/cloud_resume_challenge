@@ -4,11 +4,11 @@ variable "aws_region" {
 }
 variable "project_name" {
   type    = string
-  default = "cloud-resume-challenge"
+  default = "resume-challenge"
 }
 variable "website_domain_name" {
   type        = string
-  description = "www.derekowusubekoe.com"
+  description = "cloud-resume-challenge-yes.s3.us-east-1.amazonaws.com"
 }
 # Variable for CloudFront Distribution ID
 variable "cloudfront_distribution_id" {
