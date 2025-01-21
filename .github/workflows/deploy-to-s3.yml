@@ -34,7 +34,7 @@ jobs:
     - name: Sync files to S3
       run: |
           cd ./
-          aws s3 sync out/ s3://cloud-resume-challenge-yes --delete --acl public-read
+          aws s3 sync out/ s3://cloud-resume-challenge-yes --delete
 
     - name: Invalidate CloudFront cache
       run: |
