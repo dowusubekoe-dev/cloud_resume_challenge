@@ -27,16 +27,15 @@ jobs:
     - name: Configure AWS Credentials
       uses: aws-actions/configure-aws-credentials@v1
       with:
-        aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID}}
+        aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
         aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
         aws-region: us-east-1  # Replace with your AWS region
 
     - name: Sync files to S3
-      run: |
-          cd ./
-          aws s3 sync out/ s3://cloud-resume-challenge-yes --delete
+      run: aws s3 sync out/ s3://cloud-resume-challenge-yes --delete
 
     - name: Invalidate CloudFront Cache
-      env:
-        CLOUDFRONT_DISTRIBUTION_ID: ${{ secrets.CLOUDFRONT_DISTRIBUTION_ID }}
-      run: aws cloudfront create-invalidation --distribution-id $CLOUDFRONT_DISTRIBUTION_ID --paths "/*"
+      run: aws cloudfront create-invalidation --distribution-id ${{ secrets.CLOUDFRONT_DISTRIBUTION_ID }} --paths "/*"
+
+    - name: Example of using the output
+      run: echo "The value is ${{ secrets.CLOUDFRONT_DISTRIBUTION_ID }}"
